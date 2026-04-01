@@ -97,10 +97,10 @@ on:
         description: "Android 15 - 6.6"
         type: boolean
         default: false
-      build_a16_6_12:
-        description: "Android 16 - 6.12"
-        type: boolean
-        default: false
+      # build_a16_6_12:
+      #   description: "Android 16 - 6.12"
+      #   type: boolean
+      #   default: false
       build_all:
         description: "构建全部版本"
         type: boolean
@@ -179,21 +179,21 @@ jobs:
       cancel_susfs: ${{ inputs.cancel_susfs }}
       called_from_main: true
 
-  # ==================== Android 16 - 6.12 构建 ====================
-  build-a16-6-12:
-    if: inputs.build_a16_6_12 || inputs.build_all
-    uses: ./.github/workflows/kernel-a16-6-12.yml
-    secrets: inherit
-    with:
-      kernelsu_variant: ${{ inputs.kernelsu_variant }}
-      kernelsu_branch: ${{ inputs.kernelsu_branch }}
-      version: ${{ inputs.version }}
-      build_time: ${{ inputs.build_time || '' }}
-      use_zram: ${{ inputs.use_zram }}
-      use_bbg: ${{ inputs.use_bbg }}
-      use_kpm: ${{ inputs.use_kpm }}
-      cancel_susfs: ${{ inputs.cancel_susfs }}
-      called_from_main: true
+  # # ==================== Android 16 - 6.12 构建 ====================
+  # build-a16-6-12:
+  #   if: inputs.build_a16_6_12 || inputs.build_all
+  #   uses: ./.github/workflows/kernel-a16-6-12.yml
+  #   secrets: inherit
+  #   with:
+  #     kernelsu_variant: ${{ inputs.kernelsu_variant }}
+  #     kernelsu_branch: ${{ inputs.kernelsu_branch }}
+  #     version: ${{ inputs.version }}
+  #     build_time: ${{ inputs.build_time || '' }}
+  #     use_zram: ${{ inputs.use_zram }}
+  #     use_bbg: ${{ inputs.use_bbg }}
+  #     use_kpm: ${{ inputs.use_kpm }}
+  #     cancel_susfs: ${{ inputs.cancel_susfs }}
+  #     called_from_main: true
 
   # ==================== 收集补丁冲突文件 ====================
   # 汇总所有构建任务中的 .rej 文件，方便调试补丁问题
@@ -205,7 +205,7 @@ jobs:
       - build-a13-5-15
       - build-a14-6-1
       - build-a15-6-6
-      - build-a16-6-12
+      # - build-a16-6-12
     steps:
       - name: 下载冲突文件
         uses: actions/download-artifact@v4
@@ -249,7 +249,7 @@ jobs:
       - build-a13-5-15
       - build-a14-6-1
       - build-a15-6-6
-      - build-a16-6-12
+      # - build-a16-6-12
 
     # ==================== 环境变量 ====================
     env:
@@ -326,7 +326,7 @@ jobs:
           check_build "${{ inputs.build_a13_5_15 || inputs.build_all }}" "build-a13-5-15" "${{ needs.build-a13-5-15.result }}"
           check_build "${{ inputs.build_a14_6_1 || inputs.build_all }}" "build-a14-6-1" "${{ needs.build-a14-6-1.result }}"
           check_build "${{ inputs.build_a15_6_6 || inputs.build_all }}" "build-a15-6-6" "${{ needs.build-a15-6-6.result }}"
-          check_build "${{ inputs.build_a16_6_12 || inputs.build_all }}" "build-a16-6-12" "${{ needs.build-a16-6-12.result }}"
+          # check_build "${{ inputs.build_a16_6_12 || inputs.build_all }}" "build-a16-6-12" "${{ needs.build-a16-6-12.result }}"
           [[ "$failed" -ne 0 ]] && exit 1 || true
 
       # ==================== 检出代码 ====================
@@ -382,7 +382,7 @@ jobs:
             ["gki_android13_5_15"]="gki-android13-5.15"
             ["gki_android14_6_1"]="gki-android14-6.1"
             ["gki_android15_6_6"]="gki-android15-6.6"
-            ["gki_android16_6_12"]="gki-android16-6.12"
+            # ["gki_android16_6_12"]="gki-android16-6.12"
           )
           for var_name in "${!BRANCH_MAP[@]}"; do
             branch_name="${BRANCH_MAP[$var_name]}"
@@ -481,7 +481,7 @@ jobs:
           - gki-android13-5.15: [${{ env.COMMIT_HASH_gki_android13_5_15 }}](${{ env.COMMIT_URL_gki_android13_5_15 }})
           - gki-android14-6.1: [${{ env.COMMIT_HASH_gki_android14_6_1 }}](${{ env.COMMIT_URL_gki_android14_6_1 }})
           - gki-android15-6.6: [${{ env.COMMIT_HASH_gki_android15_6_6 }}](${{ env.COMMIT_URL_gki_android15_6_6 }})
-          - gki-android16-6.12: [${{ env.COMMIT_HASH_gki_android16_6_12 }}](${{ env.COMMIT_URL_gki_android16_6_12 }})
+          # - gki-android16-6.12: [${{ env.COMMIT_HASH_gki_android16_6_12 }}](${{ env.COMMIT_URL_gki_android16_6_12 }})
 
           </details>
 
